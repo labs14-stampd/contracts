@@ -36,5 +36,10 @@ contract Credential is Ownable {
     emit CredentialAdded(_credHash);
   }
 
+  function removeCredential(bytes32 _credHash) private onlyOwner() {
+    delete credentials[_credHash];
+    emit CredentialRemoved(_credHash);
+  }
+
 
 }
