@@ -31,12 +31,12 @@ contract Credential is Ownable {
 
   //private function to add credential
 
-  function addCredential(bytes32 _credHash) private onlyOwner() {
+  function addCredential(bytes32 _credHash) public onlyOwner() {
     credentials[_credHash] = CredRecord({contentHash:_credHash, valid:true});
     emit CredentialAdded(_credHash);
   }
 
-  function removeCredential(bytes32 _credHash) private onlyOwner() {
+  function removeCredential(bytes32 _credHash) public onlyOwner() {
     delete credentials[_credHash];
     emit CredentialRemoved(_credHash);
   }
