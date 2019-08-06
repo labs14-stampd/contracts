@@ -18,14 +18,10 @@ contract Credential is Ownable {
   event CredentialAdded(bytes32 credHash);
   //event will be emitted when credential hash is removed from mapping
   event CredentialRemoved(bytes32 credHash);
-  //event will be emitted when credential is validated;
-  event CredentialValidated(bytes32 credHash);
-  //event will be emitted when credential is invalidated;
-  event CredentialInvalidated(bytes32 credHash);
 
   // Define a modifer that checks to see if msg.sender == owner of the contract
   modifier onlyOwner() {
-    require(msg.sender == owner());
+    require(msg.sender == owner(), "You must be the owner of the contract.");
     _;
   }
 
@@ -41,5 +37,8 @@ contract Credential is Ownable {
     emit CredentialRemoved(_credHash);
   }
 
-
+  function validateCredential(bytes32 _credHash) public view onlyOwner() returns(bool) {
+    require(credentials[_credHash].contentHash == _credHash, "No credential with that hash can be validated.");
+    return true;
+  }
 }
