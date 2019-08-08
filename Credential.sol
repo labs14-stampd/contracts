@@ -37,8 +37,15 @@ contract Credential is Ownable {
     emit CredentialRemoved(_credHash);
   }
 
-  function validateCredential(bytes32 _credHash) public view onlyOwner() returns(bool) {
-    require(credentials[_credHash].contentHash == _credHash, "No credential with that hash can be validated.");
+  function verifyCredential(bytes32 _credHash) public view onlyOwner() returns(bool) {
+    require((credentials[_credHash].contentHash == _credHash) && (credentials[_credHash].valid == true), 
+    "No credential with that hash can be validated.");
     return true;
   }
+
+  function invalidateCredential(bytes32 _credHash) public onlyOwner() returns(bool) {
+      credentials[_credHash].valid = false; 
+      require(credentials[_credHash].valid == false, "Credential has not been changed to invalid.");
+      return true;
+  }  
 }
