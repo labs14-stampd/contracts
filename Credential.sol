@@ -8,6 +8,7 @@ contract Credential is Ownable {
   struct CredRecord {
     bytes32 contentHash;
     bool valid;
+    string timestamp;
   }
 
 
@@ -25,10 +26,8 @@ contract Credential is Ownable {
     _;
   }
 
-  //private function to add credential
-
-  function addCredential(bytes32 _credHash) public onlyOwner() {
-    credentials[_credHash] = CredRecord({contentHash:_credHash, valid:true});
+  function addCredential(bytes32 _credHash, string _credTimestamp) public onlyOwner() {
+    credentials[_credHash] = CredRecord({contentHash:_credHash, valid:true, timestamp:_credTimestamp});
     emit CredentialAdded(_credHash);
   }
 
@@ -49,7 +48,7 @@ contract Credential is Ownable {
     return true;
   }
 
-  function validateCredential(byte32 _credHash) public onlyOwner() returns(bool) {
+  function validateCredential(bytes32 _credHash) public onlyOwner() returns(bool) {
     credentials[_credHash].valid = true;
     require(credentials[_credHash].valid == true, "Credential has not been changed to valid");
     return true;
